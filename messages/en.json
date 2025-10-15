@@ -1,0 +1,52 @@
+{
+  "hero": {
+    "slogan": "We create __IMPACT__, not just __CONTENT__",
+    "sloganHighlight1": "impact",
+    "sloganHighlight2": "content"
+  },
+  "about": {
+    "title": "About Us",
+    "description": "We are a digital agency specializing in creating powerful web experiences that drive real business results. From elegant restaurant websites to profitable e-commerce stores, from professional corporate identities to stunning beauty brands — we transform ideas into digital realities that reflect your brand and increase customer engagement."
+  },
+  "technologies": {
+    "title": "Our Technologies"
+  },
+  "projects": {
+    "badge": "Our Projects — Real Results for Real Brands",
+    "title": "Check out our __WORK__",
+    "titleHighlight": "work",
+    "description": "Explore a selection of our recent web projects across different industries — each one designed with purpose, strategy, and creativity.",
+    "categories": {
+      "restaurants": {
+        "title": "Restaurants & Cafés",
+        "description": "Explore our digital menus and flavorful designs — crafted for restaurants and cafés that deserve to stand out."
+      },
+      "ecommerce": {
+        "title": "Stores & E-Commerce",
+        "description": "From cart to checkout — see how we build fast, elegant, and profitable online stores."
+      },
+      "companies": {
+        "title": "Companies & Services",
+        "description": "We turn company profiles into powerful digital identities — discover how we help businesses grow."
+      },
+      "beauty": {
+        "title": "Beauty, Cosmetics & Clinics",
+        "description": "Beauty meets design — explore elegant websites for cosmetics and beauty brands."
+      }
+    },
+    "comingSoon": "Coming soon... We're working on exciting projects in this category!"
+  },
+  "moreProjects": {
+    "badge": "More Projects",
+    "title": "We love building amazing __EXPERIENCES__",
+    "titleHighlight": "experiences",
+    "description": "Additional projects and contributions from our team"
+  },
+  "contact": {
+    "badge": "Contact Us",
+    "title": "Ready to Start Your __PROJECT__?",
+    "titleHighlight": "Project",
+    "description": "Let's build your website together. Reach out to us <twitter>on Twitter</twitter> or <email>send us an email</email> to discuss your next digital project."
+  }
+}
+
