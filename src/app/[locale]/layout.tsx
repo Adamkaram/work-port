@@ -1,4 +1,5 @@
 import Navbar from "@/components/navbar";
+import { GlobalWhatsAppModal } from "@/components/global-whatsapp-modal";
 import { Squares } from "@/components/ui/squares-background";
 import { ThemeProvider } from "@/components/theme-provider";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -95,6 +96,7 @@ export default async function LocaleLayout({
           <TooltipProvider delayDuration={0}>
             {children}
             <Navbar locale={locale} />
+            <GlobalWhatsAppModal locale={locale} />
           </TooltipProvider>
         </ThemeProvider>
       </div>

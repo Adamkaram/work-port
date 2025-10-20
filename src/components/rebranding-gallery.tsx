@@ -153,7 +153,7 @@ export function RebrandingGallery({ locale }: RebrandingGalleryProps) {
   if (PROJECTS.length === 0) return null
 
   return (
-    <section className="w-full py-16 md:py-24">
+    <section className="w-full py-16 md:py-24 overflow-x-hidden">
       <div className="container mx-auto px-4">
         {/* Section Header */}
         <div className="text-center mb-12">
@@ -205,9 +205,9 @@ export function RebrandingGallery({ locale }: RebrandingGalleryProps) {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.3 }}
-            className="flex justify-center mb-8"
+            className="flex justify-center mb-8 px-4"
           >
-            <div className="relative">
+            <div className="relative w-full max-w-4xl">
               {/* Animated gradient border */}
               <motion.div
                 className="absolute -inset-0.5 bg-gradient-to-r from-[#7ed957] via-[#5ba83f] to-[#7ed957] rounded-2xl blur opacity-30"
@@ -221,19 +221,20 @@ export function RebrandingGallery({ locale }: RebrandingGalleryProps) {
                 }}
                 style={{ backgroundSize: '200% 200%' }}
               />
-              <TabsList className="relative bg-black/80 backdrop-blur-xl border border-white/10 p-1.5 rounded-xl">
+              <TabsList className="relative bg-black/80 backdrop-blur-xl border border-white/10 p-1 sm:p-1.5 rounded-xl w-full overflow-x-auto flex-nowrap">
                 {PROJECTS.map((project, idx) => (
                       <TabsTrigger
                         key={project.id}
                         value={project.id}
-                        className="relative data-[state=active]:bg-gradient-to-r data-[state=active]:from-[#7ed957] data-[state=active]:to-[#6bc847] data-[state=active]:text-black px-6 py-2.5 font-semibold transition-all data-[state=active]:shadow-lg data-[state=active]:shadow-[#7ed957]/30 rounded-lg group"
+                        className="relative data-[state=active]:bg-gradient-to-r data-[state=active]:from-[#7ed957] data-[state=active]:to-[#6bc847] data-[state=active]:text-black px-3 sm:px-4 md:px-6 py-2 sm:py-2.5 text-xs sm:text-sm font-semibold transition-all data-[state=active]:shadow-lg data-[state=active]:shadow-[#7ed957]/30 rounded-lg group whitespace-nowrap"
                       >
-                        <span className="relative z-10 flex items-center gap-2">
+                        <span className="relative z-10 flex items-center gap-1 sm:gap-2">
                           {/* Project number badge */}
-                          <span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-white/10 text-xs group-data-[state=active]:bg-black/20 transition-colors">
+                          <span className="inline-flex items-center justify-center w-4 h-4 sm:w-5 sm:h-5 rounded-full bg-white/10 text-xs group-data-[state=active]:bg-black/20 transition-colors">
                             {idx + 1}
                           </span>
-                          {isArabic ? project.nameAr : project.name}
+                          <span className="hidden sm:inline">{isArabic ? project.nameAr : project.name}</span>
+                          <span className="sm:hidden">{isArabic ? project.nameAr.split(' ')[0] : project.name.split(' ')[0]}</span>
                           {/* Active indicator - elegant dot */}
                           <span className="w-1.5 h-1.5 rounded-full bg-transparent group-data-[state=active]:bg-black/60 transition-all duration-300" />
                         </span>
@@ -485,7 +486,7 @@ export function RebrandingGallery({ locale }: RebrandingGalleryProps) {
                     {/* After Image with Clip */}
                     <div
                       className="absolute inset-0"
-                      style={{ clipPath: `inset(0 ${100 - compareSlider}% 0 0)` }}
+                      style={{ clipPath: isArabic ? `inset(0 0 0 ${compareSlider}%)` : `inset(0 ${100 - compareSlider}% 0 0)` }}
                     >
                       <Image
                         src={currentProject.afterImages[0]}
@@ -501,7 +502,7 @@ export function RebrandingGallery({ locale }: RebrandingGalleryProps) {
                     {/* Slider Handle */}
                     <div
                       className="absolute top-0 bottom-0 w-1 bg-white shadow-lg cursor-ew-resize"
-                      style={{ left: `${compareSlider}%` }}
+                      style={{ [isArabic ? 'right' : 'left']: `${compareSlider}%` }}
                     >
                       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-8 h-8 bg-white rounded-full shadow-lg flex items-center justify-center">
                         <svg className="w-4 h-4 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">

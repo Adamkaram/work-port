@@ -20,7 +20,7 @@ export function AnimatedCTASection({ locale, badge, title, titleHighlight }: Ani
   const [selectedCountry, setSelectedCountry] = useState<'kuwait' | 'egypt'>('kuwait')
 
   return (
-    <section className="relative w-[100vw] min-h-screen overflow-x-hidden left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] flex items-center pb-8 sm:pb-12">
+    <section className="relative w-[100vw] min-h-screen overflow-x-hidden left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] flex items-center pb-24 sm:pb-12">
       {/* Animated Background - Full Width */}
       {/* Create stacking context to visually mask global squares */}
       <div className="absolute inset-0 min-h-full will-change-transform [transform:translateZ(0)]">
