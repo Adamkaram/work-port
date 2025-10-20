@@ -15,6 +15,7 @@ import Image from "next/image";
 import { useTranslations, useLocale } from 'next-intl';
 import { AnimatedCTASection } from "@/components/animated-cta-section";
 import { FAQSection } from "@/components/faq-section";
+import { RebrandingGallery } from "@/components/rebranding-gallery";
 
 const BLUR_FADE_DELAY = 0.04;
 
@@ -208,7 +209,7 @@ export default function Page() {
           ))}
         </div>
       </section> */}
-      <section id="skills">
+      {/* <section id="skills">
         <div className="flex min-h-0 flex-col gap-y-3">
           <BlurFade delay={BLUR_FADE_DELAY * 9}>
             <h2 className="text-xl font-bold">
@@ -223,7 +224,7 @@ export default function Page() {
             ))}
           </div>
         </div>
-      </section>
+      </section> */}
       <section id="projects-intro">
         <div className="space-y-8 w-full py-12 mt-12">
           <BlurFade delay={BLUR_FADE_DELAY * 11}>
@@ -348,6 +349,10 @@ export default function Page() {
       </section>
         );
       })}
+      
+      {/* Rebranding Gallery Section */}
+      <RebrandingGallery locale={locale} />
+
       <section id="hackathons">
         <div className="space-y-12 w-full py-12">
           <BlurFade delay={BLUR_FADE_DELAY * 13}>
@@ -411,32 +416,32 @@ export default function Page() {
       locale={locale}
       faqs={[
         { 
-          question: locale === 'ar' ? 'ما هي مدة تنفيذ موقع الشركة؟' : 'How long does it take to build a website?', 
-          answer: locale === 'ar' ? 'المدة تعتمد على المتطلبات، عادة من 2 إلى 4 أسابيع للإطلاق الأولي.' : 'The timeline depends on your requirements, typically 2–4 weeks for the initial launch.' 
+          question: locale === 'ar' ? 'ما هي خدمات التسويق الإلكتروني التي تقدمونها؟' : 'What digital marketing services do you offer?', 
+          answer: locale === 'ar' ? 'نقدم إدارة حسابات وسائل التواصل الاجتماعي، الإعلانات الممولة (Social Ads + Google Ads)، واستشارات وخطط نمو استراتيجية.' : 'We offer social media account management, paid advertising (Social Ads + Google Ads), and strategic consulting & growth plans.' 
         },
         { 
-          question: locale === 'ar' ? 'هل توفرون دعم وصيانة بعد الإطلاق؟' : 'Do you provide support and maintenance after launch?', 
-          answer: locale === 'ar' ? 'نعم، نوفر خطط صيانة وتحديثات مستمرة حسب احتياجك.' : 'Yes, we offer ongoing maintenance and update plans tailored to your needs.' 
+          question: locale === 'ar' ? 'ما هي خدمات البرمجة والحلول التقنية؟' : 'What IT and development services do you provide?', 
+          answer: locale === 'ar' ? 'نقوم بتصميم وتطوير المواقع والتطبيقات، أنظمة Odoo ERP، وحلول برمجية مخصصة لتناسب احتياجات عملك.' : 'We design and develop websites and apps, Odoo ERP systems, and custom software solutions tailored to your business needs.' 
         },
         { 
-          question: locale === 'ar' ? 'هل المواقع متعددة اللغات؟' : 'Are the websites multilingual?', 
-          answer: locale === 'ar' ? 'نعم، ندعم العربية والإنجليزية وأي لغات إضافية تحتاجها.' : 'Yes, we support Arabic, English, and any additional languages you need.' 
+          question: locale === 'ar' ? 'ما هي التقنيات التي تستخدمونها؟' : 'What technologies do you use?', 
+          answer: locale === 'ar' ? 'نستخدم أحدث التقنيات مثل React, Next.js, TypeScript, Vue, Node.js, PostgreSQL, TailwindCSS، وأنظمة Odoo ERP المتقدمة.' : 'We use cutting-edge technologies like React, Next.js, TypeScript, Vue, Node.js, PostgreSQL, TailwindCSS, and advanced Odoo ERP systems.' 
+        },
+        { 
+          question: locale === 'ar' ? 'هل تقدمون تدريب على أنظمة Odoo؟' : 'Do you provide Odoo system training?', 
+          answer: locale === 'ar' ? 'نعم، نقوم بالتركيب والتخصيص والتدريب الكامل على أنظمة Odoo لضمان سهولة الاستخدام والتحكم الكامل.' : 'Yes, we provide complete setup, customization, and training for Odoo systems to ensure ease of use and full control.' 
+        },
+        { 
+          question: locale === 'ar' ? 'ما هي مدة تنفيذ المشروع؟' : 'How long does it take to complete a project?', 
+          answer: locale === 'ar' ? 'المدة تعتمد على حجم المشروع، عادة من 2 إلى 6 أسابيع للمواقع، ومن 4 إلى 8 أسابيع لأنظمة Odoo.' : 'The timeline depends on project size, typically 2-6 weeks for websites, and 4-8 weeks for Odoo systems.' 
         },
         { 
           question: locale === 'ar' ? 'ما هي طرق التواصل معكم؟' : 'How can we contact you?', 
-          answer: locale === 'ar' ? 'يمكنك مراسلتنا عبر واتساب أو إنستجرام من الأزرار أدناه.' : 'You can reach us via WhatsApp or Instagram using the buttons below.' 
-        },
-        { 
-          question: locale === 'ar' ? 'هل تقدمون تصميم متجاوب مع الجوال؟' : 'Do you provide mobile-responsive design?', 
-          answer: locale === 'ar' ? 'بالتأكيد، جميع مواقعنا متجاوبة بالكامل وتعمل بشكل مثالي على جميع الأجهزة.' : 'Absolutely, all our websites are fully responsive and work perfectly on all devices.' 
-        },
-        { 
-          question: locale === 'ar' ? 'ما هي تكلفة إنشاء موقع إلكتروني؟' : 'What is the cost of creating a website?', 
-          answer: locale === 'ar' ? 'التكلفة تعتمد على حجم المشروع ومتطلباته. تواصل معنا للحصول على عرض سعر مخصص.' : 'The cost depends on the project size and requirements. Contact us for a custom quote.' 
+          answer: locale === 'ar' ? 'يمكنك التواصل معنا عبر واتساب (+965 94473236) أو إنستجرام أو البريد الإلكتروني Info@atharagency.com' : 'You can reach us via WhatsApp (+965 94473236), Instagram, or email Info@atharagency.com' 
         },
       ]}
-      title={locale === 'ar' ? 'الأسئلة الشائعة' : 'Frequently Asked Questions'}
-      subtitle={locale === 'ar' ? 'كل ما تحتاج معرفته قبل بدء مشروعك الرقمي.' : 'Everything you need to know before starting your digital project.'}
+      title={locale === 'ar' ? 'خدماتنا وتقنياتنا' : 'Our Services & Technologies'}
+      subtitle={locale === 'ar' ? 'اكتشف خدماتنا في التسويق الإلكتروني والحلول التقنية المتقدمة.' : 'Discover our digital marketing and advanced IT solutions.'}
     />
 
     <AnimatedCTASection 

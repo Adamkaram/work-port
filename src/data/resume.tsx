@@ -2,15 +2,15 @@ import { Icons } from "@/components/icons";
 import { CodeIcon, HomeIcon, NotebookIcon, PencilLine } from "lucide-react";
 
 export const DATA = {
-  name: "Your Company",
-  initials: "YC",
-  url: "https://ahmed-karam.vercel.app/",
-  location: "Egypt, Cairo",
+  name: "Athar Agency",
+  initials: "AA",
+  url: "https://athar.com/",
+  location: "Kuwait City, Egypt Cairo",
   locationLink: " ",
   description:
     "We create impact, not just content",
   summary:
-    "We are a digital agency specializing in creating powerful web experiences that drive real business results. From elegant restaurant websites to profitable e-commerce stores, from professional corporate identities to stunning beauty brands — we transform ideas into digital realities that reflect your brand and increase customer engagement.",
+    "We are a creative agency specializing in digital marketing and IT solutions. We believe in innovation, work with clarity, and aim to grow brands to become more impactful and professional. We work with passion and think smart, offering marketing and tech services in a language that clients understand—engaging, effective, and focused on results that grow businesses with confidence.",
   avatarUrl: "/logo.png",
   skills: [
     "Vue",
@@ -66,15 +66,9 @@ export const DATA = {
   ],
   navbar: [],
   contact: {
-    email: "ahmadkarm432@gmail.com",
-    tel: "+201096343948",
+    email: "Info@atharagency.com",
+    tel: "+965 94473236 | +20 10 96343948",
     social: {
-      WhatsApp: {
-        name: "WhatsApp",
-        url: "https://wa.me/201096343948?text=مرحباً، أرغب في الاستفسار عن إنشاء موقع إلكتروني",
-        icon: Icons.whatsapp,
-        navbar: true,
-      },
       Facebook: {
         name: "Facebook",
         url: "https://www.facebook.com/profile.php?id=61576344207966",
@@ -83,7 +77,7 @@ export const DATA = {
       },
       Instagram: {
         name: "Instagram",
-        url: "https://www.instagram.com/atharagency_/",
+        url: "https://instagram.com/atharagncy",
         icon: Icons.instagram,
         navbar: true,
       },
@@ -92,6 +86,30 @@ export const DATA = {
         url: "https://x.com/atharagency_",
         icon: Icons.x,
         navbar: true,
+      },
+      WhatsApp: {
+        name: "WhatsApp",
+        url: "https://wa.me/96594473236?text=مرحباً، أرغب في الاستفسار عن خدمات أثر",
+        icon: Icons.whatsapp,
+        navbar: true,
+      },
+      WhatsAppKuwait: {
+        name: "WhatsApp Kuwait",
+        url: "https://wa.me/96594473236?text=مرحباً، أرغب في الاستفسار عن خدمات أثر",
+        phone: "+965 94473236",
+        country: "Kuwait",
+        countryAr: "الكويت",
+        icon: Icons.whatsapp,
+        navbar: false,
+      },
+      WhatsAppEgypt: {
+        name: "WhatsApp Egypt",
+        url: "https://wa.me/201096343948?text=مرحباً، أرغب في الاستفسار عن خدمات أثر",
+        phone: "+20 10 96343948",
+        country: "Egypt",
+        countryAr: "مصر",
+        icon: Icons.whatsapp,
+        navbar: false,
       },
       TikTok: {
         name: "TikTok",
@@ -306,32 +324,32 @@ export const DATA = {
       image: "/zahw.png",
       video: "",
     },
-    {
-      title: "AbokhaledPainter",
-      href: "https://work-seven-jade.vercel.app/ar",
-      dates: "Sep 2025",
-      active: true,
-      category: "companies",
-      description:
-        "صباغ يمزج بين الطبقات والملمس واللون لصناعة لوحات تعكس الإيقاع اليومي للمدينة. تصميم/تطوير لواجهة عربية متحركة مع معرض أعمال.",
-      technologies: [
-        "Next.js",
-        "React",
-        "TypeScript",
-        "TailwindCSS",
-        "framer-motion",
-        "GSAP"
-      ],
-      links: [
-        {
-          type: "Website",
-          href: "https://work-seven-jade.vercel.app/ar",
-          icon: <Icons.globe className="size-3" />,
-        },
-      ],
-      image: "/sabakh.png",
-      video: "",
-    },
+    // {
+    //   title: "AbokhaledPainter",
+    //   href: "https://work-seven-jade.vercel.app/ar",
+    //   dates: "Sep 2025",
+    //   active: true,
+    //   category: "companies",
+    //   description:
+    //     "صباغ يمزج بين الطبقات والملمس واللون لصناعة لوحات تعكس الإيقاع اليومي للمدينة. تصميم/تطوير لواجهة عربية متحركة مع معرض أعمال.",
+    //   technologies: [
+    //     "Next.js",
+    //     "React",
+    //     "TypeScript",
+    //     "TailwindCSS",
+    //     "framer-motion",
+    //     "GSAP"
+    //   ],
+    //   links: [
+    //     {
+    //       type: "Website",
+    //       href: "https://work-seven-jade.vercel.app/ar",
+    //       icon: <Icons.globe className="size-3" />,
+    //     },
+    //   ],
+    //   image: "/sabakh.png",
+    //   video: "",
+    // },
     // {
     //   title: "llm.report",
     //   href: "https://llm.report",

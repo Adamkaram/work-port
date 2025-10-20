@@ -9,9 +9,11 @@ import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import "../globals.css";
-import { League_Spartan } from "next/font/google";
+import { League_Spartan, Dancing_Script, Patrick_Hand } from "next/font/google";
 
 const leagueSpartan = League_Spartan({ subsets: ["latin"], weight: ["400","600","700"] });
+const dancingScript = Dancing_Script({ subsets: ["latin"], weight: ["400", "700"] });
+const patrickHand = Patrick_Hand({ subsets: ["latin"], weight: ["400"] });
 
 export const metadata: Metadata = {
   metadataBase: new URL(DATA.url),
@@ -86,7 +88,7 @@ export default async function LocaleLayout({
         }}
       >
         {/* Global animated background (disabled inside CTA by stacking contexts) */}
-        <div className="fixed inset-0 -z-10">
+        <div className="fixed top-0 left-0 -z-10 overflow-hidden" style={{ width: '100vw', height: '100vh' }}>
           <Squares direction="diagonal" speed={0.5} squareSize={40} borderColor="#222" hoverFillColor="#111" lineGradient="whiteGray" globalOpacity={0.3} />
         </div>
         <ThemeProvider attribute="class" defaultTheme="dark">

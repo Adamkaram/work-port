@@ -16,7 +16,7 @@ export function FAQSection({ faqs, title, subtitle, locale }: { faqs: FAQItem[];
   const [open, setOpen] = useState<string | undefined>("question-0")
 
   return (
-    <section className="w-full pt-10 pb-0 bg-black">
+    <section className="w-full pt-10 pb-0">
       <div className="mx-auto max-w-4xl px-6">
         <div className="text-center mb-6">
           <motion.h2
