@@ -26,7 +26,7 @@ export function AnimatedCTASection({ locale, badge, title, titleHighlight }: Ani
       <div className="absolute inset-0 min-h-full will-change-transform [transform:translateZ(0)]">
         <div className="h-full w-full bg-gradient-to-br from-black via-black to-black">
           <BackgroundPaths />
-          <div className="absolute inset-0 opacity-20">
+          <div className="absolute inset-0 opacity-10">
             <div className="absolute top-0 left-1/4 w-96 h-96 bg-[#7ed957]/10 rounded-full blur-3xl animate-pulse" />
             <div
               className="absolute bottom-0 right-1/4 w-96 h-96 bg-[#5ba83f]/10 rounded-full blur-3xl animate-pulse"
@@ -70,12 +70,12 @@ export function AnimatedCTASection({ locale, badge, title, titleHighlight }: Ani
           </div>
 
           {/* Flex Container for Logo and Content */}
-          <div className={`relative z-10 flex flex-col lg:flex-row items-center gap-6 sm:gap-8 lg:gap-12 ${locale === 'ar' ? 'lg:flex-row-reverse' : ''}`}>
+          <div className={`relative z-10 flex flex-col lg:flex-row items-center gap-6 sm:gap-8 lg:gap-12 ${locale === 'ar' ? '' : 'lg:flex-row-reverse'}`}>
             
             {/* 3D Logo - Left Side (or Right in Arabic) */}
             <motion.div
               className="flex-shrink-0 w-full sm:w-[280px] md:w-[350px] lg:w-[450px] flex justify-center lg:justify-start"
-              initial={{ opacity: 0, x: locale === 'ar' ? 100 : -100 }}
+              initial={{ opacity: 0, x: locale === 'ar' ? -100 : 100 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8, delay: 0.3 }}
             >
