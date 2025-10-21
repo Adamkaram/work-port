@@ -66,7 +66,7 @@ export const DATA = {
   ],
   navbar: [],
   contact: {
-    email: "Info@atharagency.com",
+    email: "Info@athar.com",
     tel: "+965 94473236 | +20 10 96343948",
     social: {
       Facebook: {

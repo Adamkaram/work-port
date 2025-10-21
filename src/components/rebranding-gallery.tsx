@@ -209,15 +209,13 @@ export function RebrandingGallery({ locale }: RebrandingGalleryProps) {
             viewport={{ once: true }}
             className="inline-block rounded-lg bg-[#7ed957] text-black px-4 py-2 text-sm font-semibold mb-4"
           >
-            {isArabic ? 'معرض أعمال إعادة التصميم' : 'Rebranding Showcase'}
+            {isArabic ? 'قسم التسويق الرقمى' : 'Digital Marketing department'}
           </motion.div>
           
           <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.1 }}
-            className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4"
+            className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4"
+            animate={{ backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'] }}
+            transition={{ duration: 5, repeat: Infinity, ease: 'linear' }}
             style={{
               background: "linear-gradient(90deg, #ffffff 0%, #ffffff 15%, #7ed957 25%, #5ba83f 30%, #7ed957 35%, #ffffff 45%, #ffffff 100%)",
               backgroundSize: "200% auto",
@@ -230,14 +228,19 @@ export function RebrandingGallery({ locale }: RebrandingGalleryProps) {
           </motion.h2>
           
           <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.2 }}
-            className="text-white/70 text-lg max-w-2xl mx-auto"
+            className="text-lg max-w-2xl mx-auto text-center"
+            animate={{ backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'] }}
+            transition={{ duration: 5, repeat: Infinity, ease: 'linear' }}
+            style={{
+              background: 'linear-gradient(90deg, #ffffff 0%, #ffffff 15%, #7ed957 25%, #5ba83f 30%, #7ed957 35%, #ffffff 45%, #ffffff 100%)',
+              backgroundSize: '200% auto',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text',
+            }}
           >
             {isArabic 
-              ? ' شاهد كيف نحول ونبني العلامات التجارية من القديم إلى الجديد بإبداع واحترافية'
+              ? ' شاهد كيف نبنى ونحول  العلامات التجارية من القديم إلى الجديد بإبداع واحترافية'
               : 'See how we transform and build brands from old to new with creativity and professionalism'
             }
           </motion.p>

@@ -15,7 +15,7 @@ import Image from "next/image";
 import { useTranslations, useLocale } from 'next-intl';
 import { AnimatedCTASection } from "@/components/animated-cta-section";
 import { FAQSection } from "@/components/faq-section";
-import { RebrandingGallery } from "@/components/rebranding-gallery";
+import { ShowcaseSwitcher } from "@/components/showcase-switcher";
 
 const BLUR_FADE_DELAY = 0.04;
 
@@ -350,8 +350,8 @@ export default function Page() {
         );
       })}
       
-      {/* Rebranding Gallery Section */}
-      <RebrandingGallery locale={locale} />
+      {/* Showcase Switcher: Rebranding + Social Management */}
+      <ShowcaseSwitcher locale={locale} />
 
       <section id="hackathons">
         <div className="space-y-12 w-full py-12">
@@ -437,7 +437,7 @@ export default function Page() {
         },
         { 
           question: locale === 'ar' ? 'ما هي طرق التواصل معكم؟' : 'How can we contact you?', 
-          answer: locale === 'ar' ? 'يمكنك التواصل معنا عبر واتساب (+965 94473236) أو إنستجرام أو البريد الإلكتروني Info@atharagency.com' : 'You can reach us via WhatsApp (+965 94473236), Instagram, or email Info@atharagency.com' 
+          answer: locale === 'ar' ? 'يمكنك التواصل معنا عبر واتساب (+965 94473236) أو إنستجرام أو البريد الإلكتروني Info@athar.com' : 'You can reach us via WhatsApp (+965 94473236), Instagram, or email Info@athar.com' 
         },
       ]}
       title={locale === 'ar' ? 'خدماتنا وتقنياتنا' : 'Our Services & Technologies'}
