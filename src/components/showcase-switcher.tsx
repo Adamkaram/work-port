@@ -30,6 +30,20 @@ export function ShowcaseSwitcher({ locale }: ShowcaseSwitcherProps) {
     dragFree: false,
   })
 
+  // Dynamic height handling - refs and measurer come BEFORE onSelect to avoid TS errors
+  const contentContainerRef = useRef<HTMLDivElement | null>(null)
+  const slide0Ref = useRef<HTMLDivElement | null>(null)
+  const slide1Ref = useRef<HTMLDivElement | null>(null)
+  const [contentHeight, setContentHeight] = useState<number | undefined>(undefined)
+
+  const measureAndSetHeight = useCallback((idx: number) => {
+    const el = idx === 0 ? slide0Ref.current : slide1Ref.current
+    if (el) {
+      const h = el.offsetHeight
+      if (h && h !== contentHeight) setContentHeight(h)
+    }
+  }, [contentHeight])
+
   const onSelect = useCallback(() => {
     if (!emblaApi) return
     const idx = emblaApi.selectedScrollSnap()
@@ -37,7 +51,7 @@ export function ShowcaseSwitcher({ locale }: ShowcaseSwitcherProps) {
     pickerApi?.scrollTo(idx)
     // Update dynamic height on selection
     requestAnimationFrame(() => measureAndSetHeight(idx))
-  }, [emblaApi, pickerApi])
+  }, [emblaApi, pickerApi, measureAndSetHeight])
 
   useEffect(() => {
     if (!emblaApi) return
@@ -51,18 +65,6 @@ export function ShowcaseSwitcher({ locale }: ShowcaseSwitcherProps) {
   }, [emblaApi, onSelect])
 
   // Dynamic height handling
-  const contentContainerRef = useRef<HTMLDivElement | null>(null)
-  const slide0Ref = useRef<HTMLDivElement | null>(null)
-  const slide1Ref = useRef<HTMLDivElement | null>(null)
-  const [contentHeight, setContentHeight] = useState<number | undefined>(undefined)
-
-  const measureAndSetHeight = (idx: number) => {
-    const el = idx === 0 ? slide0Ref.current : slide1Ref.current
-    if (el) {
-      const h = el.offsetHeight
-      if (h && h !== contentHeight) setContentHeight(h)
-    }
-  }
 
   useEffect(() => {
     // Measure initially and on window resize
@@ -70,7 +72,7 @@ export function ShowcaseSwitcher({ locale }: ShowcaseSwitcherProps) {
     const handler = () => measureAndSetHeight(activeIndex)
     window.addEventListener('resize', handler)
     return () => window.removeEventListener('resize', handler)
-  }, [activeIndex])
+  }, [activeIndex, measureAndSetHeight])
 
   // React to content changes (images load, collapses) via ResizeObserver
   useEffect(() => {
@@ -79,7 +81,7 @@ export function ShowcaseSwitcher({ locale }: ShowcaseSwitcherProps) {
     const ro = new ResizeObserver(() => measureAndSetHeight(activeIndex))
     ro.observe(target)
     return () => ro.disconnect()
-  }, [activeIndex])
+  }, [activeIndex, measureAndSetHeight])
 
   const SECTIONS = [
     {
@@ -189,7 +191,8 @@ export function ShowcaseSwitcher({ locale }: ShowcaseSwitcherProps) {
           style={contentHeight ? { height: contentHeight, transition: 'height 300ms ease' } : { transition: 'height 300ms ease' }}
           ref={(node) => {
             // unify refs: pass to embla and keep local ref
-            // @ts-expect-error emblaRef is a callback ref
+            // emblaRef is a callback ref from the hook
+            // @ts-ignore
             emblaRef(node)
             contentContainerRef.current = node
           }}
