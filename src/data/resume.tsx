@@ -71,19 +71,19 @@ export const DATA = {
     social: {
       Facebook: {
         name: "Facebook",
-        url: "https://www.facebook.com/profile.php?id=61576344207966",
+        url: "https://www.facebook.com/share/1CE1yH3pwg/",
         icon: Icons.facebook,
         navbar: true,
       },
       Instagram: {
         name: "Instagram",
-        url: "https://instagram.com/atharagncy",
+        url: "https://www.instagram.com/atharagncy",
         icon: Icons.instagram,
         navbar: true,
       },
       X: {
         name: "X",
-        url: "https://x.com/atharagency_",
+        url: "https://x.com/atharagncy",
         icon: Icons.x,
         navbar: true,
       },
@@ -113,8 +113,14 @@ export const DATA = {
       },
       TikTok: {
         name: "TikTok",
-        url: "https://www.tiktok.com/@atharagency_",
+        url: "https://www.tiktok.com/@atharagncy",
         icon: Icons.tiktok,
+        navbar: true,
+      },
+      LinkedIn: {
+        name: "LinkedIn",
+        url: "https://www.linkedin.com/company/atharagncy/",
+        icon: Icons.linkedin,
         navbar: true,
       },
     },

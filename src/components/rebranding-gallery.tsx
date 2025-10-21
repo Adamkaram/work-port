@@ -1,12 +1,13 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useCallback } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { motion, AnimatePresence } from "framer-motion"
 import { Icons } from "@/components/icons"
 import { Badge } from "@/components/ui/badge"
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs"
+import useEmblaCarousel from 'embla-carousel-react'
+import type { EmblaCarouselType } from 'embla-carousel'
 
 interface SocialLinks {
   instagram?: string
@@ -60,8 +61,7 @@ const PROJECTS: ProjectData[] = [
     ],
     video: "/gallery/diamond/dia-vid.mp4",
     socialLinks: {
-      instagram: "https://instagram.com/atharagency_",
-      website: "https://athar.com"
+      instagram: "https://www.instagram.com/diamondartjewellery"
     }
   },
   {
@@ -87,11 +87,7 @@ const PROJECTS: ProjectData[] = [
       "/gallery/diamond/dia-3.jpg"
     ],
     video: "/gallery/diamond/dia-vid.mp4",
-    socialLinks: {
-      instagram: "https://instagram.com/atharagency_",
-      facebook: "https://facebook.com/atharagency",
-      website: "https://athar.com"
-    }
+    socialLinks: {}
   }
 ]
 
@@ -102,8 +98,58 @@ export function RebrandingGallery({ locale }: RebrandingGalleryProps) {
   const [lightboxOpen, setLightboxOpen] = useState(false)
   const [lightboxImages, setLightboxImages] = useState<string[]>([])
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
+  const [selectedProjectIndex, setSelectedProjectIndex] = useState(0)
+  const [isDragging, setIsDragging] = useState(false)
+  const [pointerDownPos, setPointerDownPos] = useState({ x: 0, y: 0 })
 
   const isArabic = locale === 'ar'
+  
+  // Embla Carousel for projects picker
+  const [emblaRef, emblaApi] = useEmblaCarousel({
+    loop: true,
+    direction: isArabic ? 'rtl' : 'ltr',
+    axis: 'x',
+    align: 'center',
+    containScroll: 'trimSnaps',
+    dragFree: false,
+  })
+
+  const onSelect = useCallback(() => {
+    if (!emblaApi) return
+    setSelectedProjectIndex(emblaApi.selectedScrollSnap())
+  }, [emblaApi])
+
+  const handleProjectClick = useCallback((index: number) => {
+    if (isDragging) return
+    setSelectedProjectIndex(index)
+    emblaApi?.scrollTo(index)
+  }, [emblaApi, isDragging])
+
+  useEffect(() => {
+    if (!emblaApi) return
+    
+    const onPointerDown = () => setIsDragging(false)
+    const onPointerUp = () => {
+      // Small delay to detect if it was a drag
+      setTimeout(() => setIsDragging(false), 100)
+    }
+    const onDragStart = () => setIsDragging(true)
+    
+    onSelect()
+    emblaApi.on('select', onSelect)
+    emblaApi.on('reInit', onSelect)
+    emblaApi.on('pointerDown', onPointerDown)
+    emblaApi.on('pointerUp', onPointerUp)
+    emblaApi.on('scroll', onDragStart)
+    
+    return () => {
+      emblaApi.off('select', onSelect)
+      emblaApi.off('reInit', onSelect)
+      emblaApi.off('pointerDown', onPointerDown)
+      emblaApi.off('pointerUp', onPointerUp)
+      emblaApi.off('scroll', onDragStart)
+    }
+  }, [emblaApi, onSelect])
   
   const openLightbox = (images: string[], index: number) => {
     setLightboxImages(images)
@@ -191,58 +237,142 @@ export function RebrandingGallery({ locale }: RebrandingGalleryProps) {
             className="text-white/70 text-lg max-w-2xl mx-auto"
           >
             {isArabic 
-              ? 'شاهد كيف نحول العلامات التجارية من القديم إلى الجديد بإبداع واحترافية'
-              : 'See how we transform brands from old to new with creativity and professionalism'
+              ? ' شاهد كيف نحول ونبني العلامات التجارية من القديم إلى الجديد بإبداع واحترافية'
+              : 'See how we transform and build brands from old to new with creativity and professionalism'
             }
           </motion.p>
         </div>
 
-        {/* Shadcn Tabs for Projects - Enhanced with RTL Support */}
-        <Tabs defaultValue={PROJECTS[0]?.id} className="w-full" dir={isArabic ? 'rtl' : 'ltr'}>
-          {/* Projects TabsList with Gradient Border */}
+        {/* iOS Style Carousel Picker for Projects */}
+        <div className="w-full mb-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.3 }}
-            className="flex justify-center mb-8 px-4"
+            className="relative"
           >
-            <div className="relative w-full max-w-4xl">
-              {/* Animated gradient border */}
-              <motion.div
-                className="absolute -inset-0.5 bg-gradient-to-r from-[#7ed957] via-[#5ba83f] to-[#7ed957] rounded-2xl blur opacity-30"
-                animate={{
-                  backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'],
-                }}
-                transition={{
-                  duration: 3,
-                  repeat: Infinity,
-                  ease: 'linear',
-                }}
-                style={{ backgroundSize: '200% 200%' }}
-              />
-              <TabsList className="relative bg-black/80 backdrop-blur-xl border border-white/10 p-1 sm:p-1.5 rounded-xl w-full overflow-x-auto flex-nowrap">
-                {PROJECTS.map((project, idx) => (
-                      <TabsTrigger
-                        key={project.id}
-                        value={project.id}
-                        className="relative data-[state=active]:bg-gradient-to-r data-[state=active]:from-[#7ed957] data-[state=active]:to-[#6bc847] data-[state=active]:text-black px-3 sm:px-4 md:px-6 py-2 sm:py-2.5 text-xs sm:text-sm font-semibold transition-all data-[state=active]:shadow-lg data-[state=active]:shadow-[#7ed957]/30 rounded-lg group whitespace-nowrap"
+            {/* Carousel Container */}
+            <div className="overflow-hidden" ref={emblaRef}>
+              <div className="flex touch-pan-y backface-hidden">
+                {PROJECTS.map((project, index) => (
+                  <div
+                    key={project.id}
+                    className="flex-[0_0_100%] min-w-0 sm:flex-[0_0_50%] md:flex-[0_0_33.333%] px-2 cursor-pointer"
+                    onPointerDown={(e) => {
+                      setPointerDownPos({ x: e.clientX, y: e.clientY })
+                      setIsDragging(false)
+                    }}
+                    onPointerUp={(e) => {
+                      const dx = Math.abs(e.clientX - pointerDownPos.x)
+                      const dy = Math.abs(e.clientY - pointerDownPos.y)
+                      const distance = Math.sqrt(dx * dx + dy * dy)
+                      
+                      // If pointer moved less than 10px, consider it a click
+                      if (distance < 10 && !isDragging) {
+                        e.stopPropagation()
+                        handleProjectClick(index)
+                      }
+                    }}
+                  >
+                    <motion.div
+                      animate={{
+                        scale: selectedProjectIndex === index ? 1 : 0.85,
+                        opacity: selectedProjectIndex === index ? 1 : 0.4,
+                      }}
+                      whileHover={{
+                        scale: selectedProjectIndex === index ? 1 : 0.9,
+                        opacity: selectedProjectIndex === index ? 1 : 0.6,
+                      }}
+                      transition={{ duration: 0.3 }}
+                      className="relative"
+                    >
+                      {/* Gradient Border - Only for selected */}
+                      {selectedProjectIndex === index && (
+                        <motion.div
+                          className="absolute -inset-0.5 bg-gradient-to-r from-[#7ed957] via-[#5ba83f] to-[#7ed957] rounded-2xl blur opacity-40"
+                          animate={{
+                            backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'],
+                          }}
+                          transition={{
+                            duration: 3,
+                            repeat: Infinity,
+                            ease: 'linear',
+                          }}
+                          style={{ backgroundSize: '200% 200%' }}
+                        />
+                      )}
+                      
+                      <div
+                        className={`relative p-4 rounded-2xl backdrop-blur-xl border transition-all duration-300 ${
+                          selectedProjectIndex === index
+                            ? 'bg-gradient-to-br from-[#7ed957]/20 to-[#5ba83f]/10 border-[#7ed957]/30 shadow-lg shadow-[#7ed957]/20'
+                            : 'bg-black/40 border-white/10'
+                        }`}
                       >
-                        <span className="relative z-10 flex items-center gap-1 sm:gap-2">
-                          {/* Project number badge */}
-                          <span className="inline-flex items-center justify-center w-4 h-4 sm:w-5 sm:h-5 rounded-full bg-white/10 text-xs group-data-[state=active]:bg-black/20 transition-colors">
-                            {idx + 1}
-                          </span>
-                          <span className="hidden sm:inline">{isArabic ? project.nameAr : project.name}</span>
-                          <span className="sm:hidden">{isArabic ? project.nameAr.split(' ')[0] : project.name.split(' ')[0]}</span>
-                          {/* Active indicator - elegant dot */}
-                          <span className="w-1.5 h-1.5 rounded-full bg-transparent group-data-[state=active]:bg-black/60 transition-all duration-300" />
-                        </span>
-                      </TabsTrigger>
+                        <div className="flex flex-col items-center gap-3 text-center">
+                          {/* Project Number */}
+                          <div className={`inline-flex items-center justify-center w-10 h-10 rounded-full transition-all duration-300 ${
+                            selectedProjectIndex === index
+                              ? 'bg-[#7ed957] text-black'
+                              : 'bg-white/10 text-white/60'
+                          }`}>
+                            <span className="font-bold text-lg">{index + 1}</span>
+                          </div>
+                          
+                          {/* Project Name */}
+                          <h3 className={`font-bold text-base sm:text-lg transition-colors duration-300 ${
+                            selectedProjectIndex === index
+                              ? 'text-[#7ed957]'
+                              : 'text-white/60'
+                          }`}>
+                            {isArabic ? project.nameAr : project.name}
+                          </h3>
+                          
+                          {/* Category Badge */}
+                          <Badge 
+                            variant="secondary"
+                            className={`text-xs transition-all duration-300 ${
+                              selectedProjectIndex === index
+                                ? 'bg-[#7ed957]/20 text-[#7ed957] border-[#7ed957]/30'
+                                : 'bg-white/5 text-white/40 border-white/10'
+                            }`}
+                          >
+                            {isArabic ? project.categoryAr : project.category}
+                          </Badge>
+                        </div>
+                      </div>
+                    </motion.div>
+                  </div>
                 ))}
-              </TabsList>
+              </div>
             </div>
+            
+            {/* Swipe Indicator */}
+            <div className="flex justify-center gap-2 mt-4">
+              {PROJECTS.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => {
+                    setSelectedProjectIndex(index)
+                    emblaApi?.scrollTo(index)
+                  }}
+                  className={`h-2 rounded-full transition-all duration-300 ${
+                    selectedProjectIndex === index
+                      ? 'bg-[#7ed957] w-8'
+                      : 'bg-white/20 w-2 hover:bg-white/40'
+                  }`}
+                  aria-label={`Go to project ${index + 1}`}
+                />
+              ))}
+            </div>
+            
+            {/* Swipe Hint */}
+            <p className="text-center text-white/40 text-sm mt-3">
+              {isArabic ? 'اسحب لتصفح المشاريع' : 'Swipe to browse projects'}
+            </p>
           </motion.div>
+        </div>
 
           {/* View Mode Toggle */}
           <motion.div
@@ -284,15 +414,20 @@ export function RebrandingGallery({ locale }: RebrandingGalleryProps) {
             </button>
           </motion.div>
 
-          {/* Project Content in TabsContent */}
-          {PROJECTS.map((currentProject) => (
-            <TabsContent key={currentProject.id} value={currentProject.id} className="mt-0">
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3 }}
-                className="grid lg:grid-cols-2 gap-8 items-start"
-              >
+          {/* Project Content - Display Selected Project */}
+          <AnimatePresence mode="wait">
+            {(() => {
+              const currentProject = PROJECTS[selectedProjectIndex]
+              return (
+                <motion.div
+                  key={selectedProjectIndex}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ duration: 0.3 }}
+                  className="space-y-8"
+                >
+                  <div className="grid lg:grid-cols-2 gap-8 items-start">
             {/* Left Side - Images */}
             <div className="relative">
               {viewMode === 'before' && (
@@ -665,7 +800,7 @@ export function RebrandingGallery({ locale }: RebrandingGalleryProps) {
               </div>
 
             </div>
-          </motion.div>
+                  </div>
 
           {/* Beautiful Client Testimonial Quote - Full Width */}
           <motion.div
@@ -718,7 +853,7 @@ export function RebrandingGallery({ locale }: RebrandingGalleryProps) {
                 transition={{ delay: 1, duration: 0.6, type: "spring" }}
                 className={`absolute ${isArabic ? 'right-0' : 'left-0'} -top-4 text-[#7ed957]/20 text-8xl leading-none select-none`}
                 style={{ 
-                  fontFamily: isArabic ? "'Marhey', 'Reem Kufi', cursive" : "'Dancing Script', cursive",
+                  fontFamily: isArabic ? "'Ather', 'Marhey', cursive" : "'Dancing Script', cursive",
                 }}
               >
                 {isArabic ? '«' : '"'}
@@ -729,8 +864,8 @@ export function RebrandingGallery({ locale }: RebrandingGalleryProps) {
                 <motion.p
                   className="text-[#7ed957] text-2xl md:text-3xl lg:text-4xl font-bold leading-relaxed mb-6"
                   style={{
-                    fontFamily: isArabic ? "'Marhey', 'Reem Kufi', cursive" : "'Dancing Script', cursive",
-                    fontWeight: isArabic ? '600' : '700',
+                    fontFamily: isArabic ? "'Ather', 'Marhey', cursive" : "'Dancing Script', cursive",
+                    fontWeight: isArabic ? 'normal' : '700',
                   }}
                 >
                   {isArabic ? (
@@ -780,8 +915,8 @@ export function RebrandingGallery({ locale }: RebrandingGalleryProps) {
                   transition={{ delay: 2.5, duration: 0.6 }}
                   className="text-white/80 text-lg md:text-xl leading-relaxed max-w-3xl font-semibold"
                   style={{
-                    fontFamily: isArabic ? "'Marhey', 'Reem Kufi', cursive" : "'Dancing Script', cursive",
-                    fontWeight: isArabic ? '600' : '600',
+                    fontFamily: isArabic ? "'Ather', 'Marhey', cursive" : "'Dancing Script', cursive",
+                    fontWeight: isArabic ? 'normal' : '600',
                   }}
                 >
                   {isArabic 
@@ -802,7 +937,7 @@ export function RebrandingGallery({ locale }: RebrandingGalleryProps) {
                   <p 
                     className="text-[#7ed957]/80 text-xl font-semibold"
                     style={{
-                      fontFamily: isArabic ? "'Marhey', cursive" : "'Dancing Script', cursive",
+                      fontFamily: isArabic ? "'Ather', cursive" : "'Dancing Script', cursive",
                     }}
                   >
                     {isArabic ? 'المؤسس' : 'Founder'}
@@ -839,11 +974,12 @@ export function RebrandingGallery({ locale }: RebrandingGalleryProps) {
               animate={{ scaleX: 1 }}
               transition={{ delay: 3.4, duration: 1 }}
             />
-            </div>
+          </div>
           </motion.div>
-            </TabsContent>
-          ))}
-        </Tabs>
+                </motion.div>
+              )
+            })()}
+          </AnimatePresence>
 
         {/* Lightbox Modal for Full-Screen Image Viewing */}
         <AnimatePresence>
