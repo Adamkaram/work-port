@@ -58,24 +58,26 @@ const PROJECTS: ProjectData[] = [
     category: "Luxury & Jewelry",
     categoryAr: "الفخامة والمجوهرات",
     beforeImages: [
-      "/gallery/diamond-media/before/1.JPEG",
-      "/gallery/diamond-media/before/2.JPEG",
-      "/gallery/diamond-media/before/3.JPEG",
-      "/gallery/diamond-media/before/4.JPEG"
+      "/gallery/diamond-media/before/1.webp",
+      "/gallery/diamond-media/before/2.webp",
+      "/gallery/diamond-media/before/3.webp",
+      "/gallery/diamond-media/before/4.webp",
+      "/gallery/diamond-media/before/5.webp",
+      "/gallery/diamond-media/before/6.webp"
     ],
     afterImages: [
-      "/gallery/diamond-media/after/1.png",
-      "/gallery/diamond-media/after/2.png",
-      "/gallery/diamond-media/after/3.png",
-      "/gallery/diamond-media/after/4.png",
-      "/gallery/diamond-media/after/5.png",
-      "/gallery/diamond-media/after/6.png"
+      "/gallery/diamond-media/after/1.webp",
+      "/gallery/diamond-media/after/2.webp",
+      "/gallery/diamond-media/after/3.webp",
+      "/gallery/diamond-media/after/4.webp",
+      "/gallery/diamond-media/after/5.webp",
+      "/gallery/diamond-media/after/6.webp"
     ],
     compare: {
-      before: "/gallery/diamond-media/compare/befor.jpg",
-      after: "/gallery/diamond-media/compare/after.png"
+      before: "/gallery/diamond-media/compare/befor.webp",
+      after: "/gallery/diamond-media/compare/after.webp"
     },
-    video: "/gallery/diamond-media/vid/1.MPEG-4",
+    video: "/gallery/diamond-media/vid/1.mp4",
     logo: "/gallery/diamond-media/logo/DIAMOND-logo.png",
     pdf: "/gallery/diamond-media/pdf-representaion/Re-Branding Diamond.pdf",
     socialLinks: {
@@ -93,23 +95,23 @@ const PROJECTS: ProjectData[] = [
     category: "Events & Celebrations",
     categoryAr: "المناسبات والحفلات",
     beforeImages: [
-      "/gallery/mmonents-media/before/1.jpg",
-      "/gallery/mmonents-media/before/2.jpg",
-      "/gallery/mmonents-media/before/3.jpg",
-      "/gallery/mmonents-media/before/4.jpg",
-      "/gallery/mmonents-media/before/5.jpg"
+      "/gallery/mmonents-media/before/1.webp",
+      "/gallery/mmonents-media/before/2.webp",
+      "/gallery/mmonents-media/before/3.webp",
+      "/gallery/mmonents-media/before/4.webp",
+      "/gallery/mmonents-media/before/5.webp"
     ],
     afterImages: [
-      "/gallery/mmonents-media/after/1.png",
-      "/gallery/mmonents-media/after/2.png",
-      "/gallery/mmonents-media/after/3.png",
-      "/gallery/mmonents-media/after/4.png",
-      "/gallery/mmonents-media/after/5.png",
-      "/gallery/mmonents-media/after/6.png"
+      "/gallery/mmonents-media/after/1.webp",
+      "/gallery/mmonents-media/after/2.webp",
+      "/gallery/mmonents-media/after/3.webp",
+      "/gallery/mmonents-media/after/4.webp",
+      "/gallery/mmonents-media/after/5.webp",
+      "/gallery/mmonents-media/after/6.webp"
     ],
     compare: {
-      before: "/gallery/mmonents-media/compare/before.jpg",
-      after: "/gallery/mmonents-media/compare/after.png"
+      before: "/gallery/mmonents-media/compare/before.webp",
+      after: "/gallery/mmonents-media/compare/after.webp"
     },
     video: "/gallery/mmonents-media/vid-rep/video.mp4",
     logo: "/gallery/mmonents-media/logo/Logo..png",
@@ -884,6 +886,7 @@ export function RebrandingGallery({ locale }: RebrandingGalleryProps) {
                     href={currentProject.pdf}
                     target="_blank"
                     rel="noopener noreferrer"
+                    download={false}
                     className="group relative block overflow-hidden rounded-xl bg-gradient-to-br from-[#7ed957]/20 via-[#5ba83f]/10 to-transparent border border-[#7ed957]/30 hover:border-[#7ed957]/60 transition-all duration-300 hover:shadow-xl hover:shadow-[#7ed957]/20"
                   >
                     <div className="relative p-6">
