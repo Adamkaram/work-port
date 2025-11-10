@@ -27,7 +27,17 @@ interface ProjectData {
   categoryAr: string
   beforeImages: string[]
   afterImages: string[]
-  video?: string  // فيديو اختياري للمشروع
+  // صور المقارنة المخصصة (اختياري)
+  compare?: {
+    before: string
+    after: string
+  }
+  // فيديو اختياري للمشروع
+  video?: string
+  // شعار المشروع (اختياري)
+  logo?: string
+  // ملف PDF للعرض التقديمي (اختياري)
+  pdf?: string
   socialLinks: SocialLinks
 }
 
@@ -48,46 +58,65 @@ const PROJECTS: ProjectData[] = [
     category: "Luxury & Jewelry",
     categoryAr: "الفخامة والمجوهرات",
     beforeImages: [
-      "/gallery/diamond/dia-1.jpg",
-      "/gallery/diamond/dia-2.jpg",
-      "/gallery/diamond/dia-1.jpg",
-      "/gallery/diamond/dia-2.jpg"
+      "/gallery/diamond-media/before/1.JPEG",
+      "/gallery/diamond-media/before/2.JPEG",
+      "/gallery/diamond-media/before/3.JPEG",
+      "/gallery/diamond-media/before/4.JPEG"
     ],
     afterImages: [
-      "/gallery/diamond/dia-3.jpg",
-      "/gallery/diamond/dia-4.jpg",
-      "/gallery/diamond/dia-5.jpg",
-      "/gallery/diamond/dia-3.jpg"
+      "/gallery/diamond-media/after/1.png",
+      "/gallery/diamond-media/after/2.png",
+      "/gallery/diamond-media/after/3.png",
+      "/gallery/diamond-media/after/4.png",
+      "/gallery/diamond-media/after/5.png",
+      "/gallery/diamond-media/after/6.png"
     ],
-    video: "/gallery/diamond/dia-vid.mp4",
+    compare: {
+      before: "/gallery/diamond-media/compare/befor.jpg",
+      after: "/gallery/diamond-media/compare/after.png"
+    },
+    video: "/gallery/diamond-media/vid/1.MPEG-4",
+    logo: "/gallery/diamond-media/logo/DIAMOND-logo.png",
+    pdf: "/gallery/diamond-media/pdf-representaion/Re-Branding Diamond.pdf",
     socialLinks: {
       instagram: "https://www.instagram.com/diamondartjewellery"
     }
   },
   {
-    id: "skincare-beauty",
-    name: "Glow Skincare Clinic",
-    nameAr: "عيادة جلو للعناية بالبشرة",
-    description: "Premium skincare and beauty clinic offering advanced treatments and exclusive beauty products. Complete rebranding with elegant visual identity and professional product photography.",
-    descriptionAr: "عيادة فاخرة للعناية بالبشرة تقدم علاجات متقدمة ومنتجات تجميل حصرية. إعادة تصميم كاملة مع هوية بصرية أنيقة وتصوير احترافي للمنتجات.",
-    country: "Kuwait",
-    countryAr: "الكويت",
-    category: "Beauty & Skincare",
-    categoryAr: "التجميل والعناية بالبشرة",
+    id: "my-moments",
+    name: "My Moments",
+    nameAr: "ماي مومنت",
+    description: "Event planning and celebration management. Creating unforgettable memories for weddings, birthdays, graduations, and all your special occasions 💍",
+    descriptionAr: "تنظيم حفلات ومناسبات ماي مومنت، صنع لحظاتكم ذكرى ما تُنسى💍 أعراس، مواليد، تخرج وحفلاتكم كلها عندنا",
+    country: "Saudi Arabia",
+    countryAr: "السعودية",
+    category: "Events & Celebrations",
+    categoryAr: "المناسبات والحفلات",
     beforeImages: [
-      "/gallery/diamond/dia-1.jpg",
-      "/gallery/diamond/dia-2.jpg",
-      "/gallery/diamond/dia-1.jpg",
-      "/gallery/diamond/dia-2.jpg"
+      "/gallery/mmonents-media/before/1.jpg",
+      "/gallery/mmonents-media/before/2.jpg",
+      "/gallery/mmonents-media/before/3.jpg",
+      "/gallery/mmonents-media/before/4.jpg",
+      "/gallery/mmonents-media/before/5.jpg"
     ],
     afterImages: [
-      "/gallery/diamond/dia-3.jpg",
-      "/gallery/diamond/dia-4.jpg",
-      "/gallery/diamond/dia-5.jpg",
-      "/gallery/diamond/dia-3.jpg"
+      "/gallery/mmonents-media/after/1.png",
+      "/gallery/mmonents-media/after/2.png",
+      "/gallery/mmonents-media/after/3.png",
+      "/gallery/mmonents-media/after/4.png",
+      "/gallery/mmonents-media/after/5.png",
+      "/gallery/mmonents-media/after/6.png"
     ],
-    video: "/gallery/diamond/dia-vid.mp4",
-    socialLinks: {}
+    compare: {
+      before: "/gallery/mmonents-media/compare/before.jpg",
+      after: "/gallery/mmonents-media/compare/after.png"
+    },
+    video: "/gallery/mmonents-media/vid-rep/video.mp4",
+    logo: "/gallery/mmonents-media/logo/Logo..png",
+    pdf: "/gallery/mmonents-media/pdf-representaion/Branding.pdf",
+    socialLinks: {
+      instagram: "https://www.instagram.com/mymoments"
+    }
   }
 ]
 
@@ -440,14 +469,24 @@ export function RebrandingGallery({ locale }: RebrandingGalleryProps) {
               </div>
               <div className="grid grid-cols-2 gap-3 sm:gap-4">
                     {currentProject.beforeImages.map((img, idx) => (
-                      <div key={idx} className="relative aspect-square rounded-xl overflow-hidden bg-white/5 border border-white/10">
+                      <button
+                        key={idx}
+                        onClick={() => openLightbox(currentProject.beforeImages, idx)}
+                        className="relative aspect-square rounded-xl overflow-hidden bg-white/5 border border-white/10 hover:border-red-500/50 transition-all duration-300 group cursor-pointer"
+                      >
                         <Image
                           src={img}
                           alt={`Before ${idx + 1}`}
                           fill
-                          className="object-cover"
+                          className="object-cover group-hover:scale-110 transition-transform duration-500"
                         />
-                      </div>
+                        {/* Hover overlay */}
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                          <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" />
+                          </svg>
+                        </div>
+                      </button>
                     ))}
                   </div>
                 </div>
@@ -476,13 +515,16 @@ export function RebrandingGallery({ locale }: RebrandingGalleryProps) {
                       </div>
                       
                       <video
-                        src={currentProject.video}
                         autoPlay
                         loop
                         muted={isVideoMuted}
                         playsInline
                         className="w-full h-full object-cover"
-                      />
+                        key={currentProject.video}
+                      >
+                        <source src={currentProject.video} type="video/mp4" />
+                        {isArabic ? 'متصفحك لا يدعم تشغيل الفيديو.' : 'Your browser does not support the video tag.'}
+                      </video>
                       
                       {/* زر التحكم في الصوت */}
                       <button
@@ -606,58 +648,67 @@ export function RebrandingGallery({ locale }: RebrandingGalleryProps) {
                     <span className="text-blue-400 font-semibold">{isArabic ? 'قبل وبعد' : 'Before & After'}</span>
                   </div>
                   
-                  {/* Compare Slider */}
-                  <div className="relative aspect-video rounded-xl overflow-hidden bg-white/5 border border-white/10">
-                    {/* Before Image */}
-                    <div className="absolute inset-0">
-                      <Image
-                        src={currentProject.beforeImages[0]}
-                        alt="Before"
-                        fill
-                        className="object-cover"
+                  {/* Compare Slider - Improved for full image display */}
+                  <div className="relative w-full rounded-xl overflow-hidden bg-black border border-white/10">
+                    {/* Container that maintains aspect ratio based on actual image */}
+                    <div className="relative w-full" style={{ paddingBottom: '125%' }}>
+                      {/* Before Image */}
+                      <div className="absolute inset-0">
+                        <img
+                          src={currentProject.compare?.before ?? currentProject.beforeImages[0]}
+                          alt="Before"
+                          className="absolute inset-0 w-full h-full object-contain"
+                        />
+                        <div className="absolute top-4 left-4 bg-red-500 text-white px-3 py-1 rounded-full text-sm font-semibold z-10">
+                          {isArabic ? 'قبل' : 'Before'}
+                        </div>
+                      </div>
+
+                      {/* After Image with Clip */}
+                      <div
+                        className="absolute inset-0"
+                        style={{ clipPath: isArabic ? `inset(0 0 0 ${compareSlider}%)` : `inset(0 ${100 - compareSlider}% 0 0)` }}
+                      >
+                        <img
+                          src={currentProject.compare?.after ?? currentProject.afterImages[0]}
+                          alt="After"
+                          className="absolute inset-0 w-full h-full object-contain"
+                        />
+                        <div className="absolute top-4 right-4 bg-green-500 text-white px-3 py-1 rounded-full text-sm font-semibold z-10">
+                          {isArabic ? 'بعد' : 'After'}
+                        </div>
+                      </div>
+
+                      {/* Slider Handle */}
+                      <div
+                        className="absolute top-0 bottom-0 w-1 bg-white shadow-lg cursor-ew-resize z-20"
+                        style={{ [isArabic ? 'right' : 'left']: `${compareSlider}%` }}
+                      >
+                        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-10 h-10 bg-white rounded-full shadow-xl flex items-center justify-center border-2 border-[#7ed957]">
+                          <svg className="w-5 h-5 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 9l4-4 4 4m0 6l-4 4-4-4" />
+                          </svg>
+                        </div>
+                      </div>
+
+                      {/* Slider Input */}
+                      <input
+                        type="range"
+                        min="0"
+                        max="100"
+                        value={compareSlider}
+                        onChange={(e) => setCompareSlider(Number(e.target.value))}
+                        className="absolute inset-0 w-full h-full opacity-0 cursor-ew-resize z-30"
                       />
-                      <div className="absolute top-4 left-4 bg-red-500 text-white px-3 py-1 rounded-full text-sm font-semibold">
-                        {isArabic ? 'قبل' : 'Before'}
-                      </div>
                     </div>
-
-                    {/* After Image with Clip */}
-                    <div
-                      className="absolute inset-0"
-                      style={{ clipPath: isArabic ? `inset(0 0 0 ${compareSlider}%)` : `inset(0 ${100 - compareSlider}% 0 0)` }}
-                    >
-                      <Image
-                        src={currentProject.afterImages[0]}
-                        alt="After"
-                        fill
-                        className="object-cover"
-                      />
-                      <div className="absolute top-4 right-4 bg-green-500 text-white px-3 py-1 rounded-full text-sm font-semibold">
-                        {isArabic ? 'بعد' : 'After'}
-                      </div>
-                    </div>
-
-                    {/* Slider Handle */}
-                    <div
-                      className="absolute top-0 bottom-0 w-1 bg-white shadow-lg cursor-ew-resize"
-                      style={{ [isArabic ? 'right' : 'left']: `${compareSlider}%` }}
-                    >
-                      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-8 h-8 bg-white rounded-full shadow-lg flex items-center justify-center">
-                        <svg className="w-4 h-4 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 9l4-4 4 4m0 6l-4 4-4-4" />
-                        </svg>
-                      </div>
-                    </div>
-
-                    {/* Slider Input */}
-                    <input
-                      type="range"
-                      min="0"
-                      max="100"
-                      value={compareSlider}
-                      onChange={(e) => setCompareSlider(Number(e.target.value))}
-                      className="absolute inset-0 w-full h-full opacity-0 cursor-ew-resize"
-                    />
+                  </div>
+                  
+                  {/* Instructions */}
+                  <div className="text-center text-white/60 text-sm mt-2">
+                    <svg className="w-4 h-4 inline-block mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4" />
+                    </svg>
+                    {isArabic ? 'اسحب الخط للمقارنة' : 'Drag the line to compare'}
                   </div>
                 </div>
               )}
@@ -667,6 +718,18 @@ export function RebrandingGallery({ locale }: RebrandingGalleryProps) {
             <div className={`space-y-6 ${isArabic ? 'text-right' : 'text-left'}`}>
               {/* Header with animated underline */}
               <div className="relative">
+                {/* Project Logo (optional) */}
+                  {currentProject.logo && (
+                    <div className={`mb-4 ${isArabic ? 'ml-auto' : 'mr-auto'}`}>
+                      <Image
+                        src={currentProject.logo}
+                        alt={`${isArabic ? currentProject.nameAr : currentProject.name} Logo`}
+                        width={96}
+                        height={96}
+                        className="object-contain rounded-md border border-white/10 bg-white/5 p-2"
+                      />
+                    </div>
+                  )}
                 <motion.h3 
                   className="text-2xl md:text-3xl font-bold text-white mb-3 inline-block"
                   initial={{ opacity: 0, x: isArabic ? 20 : -20 }}
@@ -801,6 +864,73 @@ export function RebrandingGallery({ locale }: RebrandingGalleryProps) {
                   </div>
                 </motion.div>
               </div>
+
+              {/* PDF Presentation Section - Innovative Design */}
+              {currentProject.pdf && (
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.6 }}
+                  className="mt-6 pt-6 border-t border-[#7ed957]/20"
+                >
+                  <h4 className="text-white font-semibold mb-3 flex items-center gap-2">
+                    <svg className="w-5 h-5 text-[#7ed957]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                    {isArabic ? 'العرض التقديمي الكامل' : 'Full Brand Presentation'}
+                  </h4>
+                  
+                  <a
+                    href={currentProject.pdf}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group relative block overflow-hidden rounded-xl bg-gradient-to-br from-[#7ed957]/20 via-[#5ba83f]/10 to-transparent border border-[#7ed957]/30 hover:border-[#7ed957]/60 transition-all duration-300 hover:shadow-xl hover:shadow-[#7ed957]/20"
+                  >
+                    <div className="relative p-6">
+                      {/* Animated background on hover */}
+                      <div className="absolute inset-0 bg-gradient-to-r from-[#7ed957]/0 via-[#7ed957]/10 to-[#7ed957]/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                      
+                      <div className="relative z-10 flex items-center justify-between">
+                        <div className="flex items-center gap-4">
+                          {/* PDF Icon */}
+                          <div className="flex-shrink-0 w-12 h-12 rounded-lg bg-[#7ed957]/20 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                            <svg className="w-6 h-6 text-[#7ed957]" fill="currentColor" viewBox="0 0 24 24">
+                              <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6z" />
+                              <path d="M14 2v6h6M10 13h4M10 17h4M10 9h1" fill="black" />
+                            </svg>
+                          </div>
+                          
+                          {/* Text */}
+                          <div>
+                            <p className="text-white font-semibold text-lg group-hover:text-[#7ed957] transition-colors duration-300">
+                              {isArabic ? 'تحميل العرض التقديمي' : 'Download Presentation'}
+                            </p>
+                            <p className="text-white/60 text-sm">
+                              {isArabic ? 'ملف PDF - دليل الهوية البصرية الكامل' : 'PDF File - Complete Brand Identity Guide'}
+                            </p>
+                          </div>
+                        </div>
+                        
+                        {/* Arrow Icon */}
+                        <div className="flex-shrink-0 w-10 h-10 rounded-full bg-[#7ed957]/20 flex items-center justify-center group-hover:bg-[#7ed957] transition-all duration-300">
+                          <svg className="w-5 h-5 text-[#7ed957] group-hover:text-black transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                          </svg>
+                        </div>
+                      </div>
+                      
+                      {/* Decorative elements */}
+                      <div className="absolute top-0 right-0 w-32 h-32 bg-[#7ed957]/5 rounded-full blur-3xl group-hover:bg-[#7ed957]/10 transition-all duration-500" />
+                      <div className="absolute bottom-0 left-0 w-24 h-24 bg-[#5ba83f]/5 rounded-full blur-2xl group-hover:bg-[#5ba83f]/10 transition-all duration-500" />
+                    </div>
+                  </a>
+                  
+                  {/* Additional Info */}
+                  <p className="text-white/40 text-xs mt-2 text-center">
+                    {isArabic ? 'انقر لتحميل أو عرض الملف في نافذة جديدة' : 'Click to download or view in a new window'}
+                  </p>
+                </motion.div>
+              )}
 
             </div>
                   </div>
@@ -1036,7 +1166,7 @@ export function RebrandingGallery({ locale }: RebrandingGalleryProps) {
                 className="relative w-[90vw] h-[90vh] flex items-center justify-center"
                 onClick={(e) => e.stopPropagation()}
               >
-                <div className="relative w-full h-full">
+                  <div className="relative w-full h-full">
                   <Image
                     src={lightboxImages[currentImageIndex]}
                     alt={`Image ${currentImageIndex + 1}`}

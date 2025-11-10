@@ -11,6 +11,10 @@ const nextConfig = {
   },
   // Skip font optimization if Google Fonts is blocked
   optimizeFonts: false,
+  images: {
+    remotePatterns: [],
+    formats: ['image/avif', 'image/webp'],
+  },
 };
 
 export default withNextIntl(nextConfig);
