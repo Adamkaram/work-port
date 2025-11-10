@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { motion, AnimatePresence } from "framer-motion"
+import { createPortal } from "react-dom"
 import { Icons } from "@/components/icons"
 import { Badge } from "@/components/ui/badge"
 import useEmblaCarousel from 'embla-carousel-react'
@@ -43,6 +44,12 @@ interface ProjectData {
 
 interface RebrandingGalleryProps {
   locale: string
+}
+
+// Portal to ensure lightbox overlays are always relative to viewport
+function Portal({ children }: { children: React.ReactNode }) {
+  if (typeof window === 'undefined') return null
+  return createPortal(children, document.body)
 }
 
 // يمكنك إضافة المشاريع هنا
@@ -554,12 +561,13 @@ export function RebrandingGallery({ locale }: RebrandingGalleryProps) {
               {/* الصور */}
               <div className="grid grid-cols-2 gap-3 sm:gap-4">
                     {currentProject.afterImages.map((img, idx) => (
-                      <motion.div 
+                      <motion.button
                         key={idx} 
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: idx * 0.1 }}
-                        className="relative aspect-square rounded-xl overflow-hidden bg-white/5 border border-white/10 hover:border-[#7ed957]/50 transition-all duration-300 group"
+                        onClick={() => openLightbox(currentProject.afterImages, idx)}
+                        className="relative aspect-square rounded-xl overflow-hidden bg-white/5 border border-white/10 hover:border-[#7ed957]/50 transition-all duration-300 group cursor-pointer"
                       >
                         <Image
                           src={img}
@@ -568,8 +576,12 @@ export function RebrandingGallery({ locale }: RebrandingGalleryProps) {
                           className="object-cover group-hover:scale-110 transition-transform duration-500"
                         />
                         {/* Hover overlay */}
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                      </motion.div>
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                          <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" />
+                          </svg>
+                        </div>
+                      </motion.button>
                     ))}
                   </div>
 
@@ -1120,23 +1132,15 @@ export function RebrandingGallery({ locale }: RebrandingGalleryProps) {
         {/* Lightbox Modal for Full-Screen Image Viewing */}
         <AnimatePresence>
           {lightboxOpen && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="fixed inset-0 z-50 flex items-center justify-center bg-black/95 backdrop-blur-sm"
-              onClick={() => setLightboxOpen(false)}
-            >
-              {/* Close Button */}
-              <button
+            <Portal>
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="fixed inset-0 z-[999999] grid place-items-center bg-black/95 backdrop-blur-sm"
                 onClick={() => setLightboxOpen(false)}
-                className="absolute top-4 right-4 z-50 p-3 rounded-full bg-white/10 hover:bg-white/20 text-white transition-all duration-300 hover:scale-110 border border-white/20"
-                aria-label="Close"
               >
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              </button>
+              {/* (Removed overlay-level close to avoid duplication) */}
 
               {/* Image Counter */}
               <div className="absolute top-4 left-4 z-50 px-4 py-2 rounded-full bg-[#7ed957]/20 text-white border border-[#7ed957]/30">
@@ -1166,18 +1170,28 @@ export function RebrandingGallery({ locale }: RebrandingGalleryProps) {
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.9 }}
                 transition={{ duration: 0.3 }}
-                className="relative w-[90vw] h-[90vh] flex items-center justify-center"
+                className="relative max-w-[95vw] max-h-[90vh] w-auto h-auto flex items-center justify-center px-4"
                 onClick={(e) => e.stopPropagation()}
               >
-                  <div className="relative w-full h-full">
-                  <Image
-                    src={lightboxImages[currentImageIndex]}
-                    alt={`Image ${currentImageIndex + 1}`}
-                    fill
-                    className="object-contain"
-                    quality={100}
-                  />
-                </div>
+                <img
+                  src={lightboxImages[currentImageIndex]}
+                  alt={`Image ${currentImageIndex + 1}`}
+                  className="max-w-full max-h-[90vh] w-auto h-auto object-contain rounded-lg"
+                  style={{ maxWidth: '100%', maxHeight: '90vh' }}
+                />
+                {/* Close Button inside image (top-right) */}
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    setLightboxOpen(false)
+                  }}
+                  className="absolute top-3 right-3 z-[10000] p-2 rounded-full transition-all duration-200 hover:scale-110 focus:outline-none"
+                  aria-label="Close"
+                >
+                  <svg className="w-8 h-8 text-white drop-shadow-[0_0_8px_rgba(0,0,0,0.7)]" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
               </motion.div>
 
               {/* Next Button */}
@@ -1198,7 +1212,8 @@ export function RebrandingGallery({ locale }: RebrandingGalleryProps) {
               <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 z-50 px-4 py-2 rounded-full bg-white/10 text-white/60 text-sm border border-white/20">
                 {isArabic ? 'استخدم الأسهم أو اضغط ESC للخروج' : 'Use arrow keys or press ESC to close'}
               </div>
-            </motion.div>
+              </motion.div>
+            </Portal>
           )}
         </AnimatePresence>
       </div>
