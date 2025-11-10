@@ -24,9 +24,9 @@ interface SocialManagementGalleryProps {
 const SOCIAL_PROJECTS: SocialProject[] = [
   {
     id: "diamond-social",
-    name: "Diamond Jewelry Collection",
+    name: "Diamond Jewellery Collection",
     nameAr: "مجوهرات الماس",
-    industry: "Luxury & Jewelry",
+    industry: "Luxury & Jewellery",
     industryAr: "الفخامة والمجوهرات",
     posts: [
       "/gallery/diamond-media/after/1.webp",

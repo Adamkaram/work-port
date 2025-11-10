@@ -55,14 +55,14 @@ function Portal({ children }: { children: React.ReactNode }) {
 // يمكنك إضافة المشاريع هنا
 const PROJECTS: ProjectData[] = [
   {
-    id: "diamond-jewelry",
-    name: "Diamond Jewelry Collection",
+    id: "diamond-Jewellery",
+    name: "Diamond Jewellery Collection",
     nameAr: "مجوهرات الماس",
-    description: "Luxury diamond jewelry brand featuring exquisite designs and premium craftsmanship. Complete visual identity and product photography showcase.",
+    description: "Luxury diamond Jewellery brand featuring exquisite designs and premium craftsmanship. Complete visual identity and product photography showcase.",
     descriptionAr: "علامة تجارية فاخرة للمجوهرات الماسية تضم تصاميم راقية وحرفية متميزة. هوية بصرية كاملة وعرض احترافي للمنتجات.",
     country: "Kuwait",
     countryAr: "الكويت",
-    category: "Luxury & Jewelry",
+    category: "Luxury & Jewellery",
     categoryAr: "الفخامة والمجوهرات",
     beforeImages: [
       "/gallery/diamond-media/before/1.webp",
@@ -124,7 +124,7 @@ const PROJECTS: ProjectData[] = [
     logo: "/gallery/mmonents-media/logo/Logo.webp",
     pdf: "/gallery/mmonents-media/pdf-representaion/Branding.pdf",
     socialLinks: {
-      instagram: "https://www.instagram.com/mymoments"
+      instagram: "https://www.instagram.com/mymomentsq8"
     }
   }
 ]
