@@ -97,8 +97,8 @@ const PROJECTS: ProjectData[] = [
     nameAr: "ماي مومنت",
     description: "Event planning and celebration management. Creating unforgettable memories for weddings, birthdays, graduations, and all your special occasions 💍",
     descriptionAr: "تنظيم حفلات ومناسبات ماي مومنت، صنع لحظاتكم ذكرى ما تُنسى💍 أعراس، مواليد، تخرج وحفلاتكم كلها عندنا",
-    country: "Saudi Arabia",
-    countryAr: "السعودية",
+    country: "Kuwait",
+    countryAr: "الكويت",
     category: "Events & Celebrations",
     categoryAr: "المناسبات والحفلات",
     beforeImages: [

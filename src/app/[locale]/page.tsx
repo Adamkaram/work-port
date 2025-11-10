@@ -16,6 +16,7 @@ import { useTranslations, useLocale } from 'next-intl';
 import { AnimatedCTASection } from "@/components/animated-cta-section";
 import { FAQSection } from "@/components/faq-section";
 import { ShowcaseSwitcher } from "@/components/showcase-switcher";
+import { useEffect, useState } from "react";
 
 const BLUR_FADE_DELAY = 0.04;
 
@@ -27,6 +28,12 @@ export default function Page() {
   const tProjects = useTranslations('projects');
   const tMore = useTranslations('moreProjects');
   const tContact = useTranslations('contact');
+  // Defer heavy hero effects slightly to avoid jank on first paint
+  const [enableHeroFx, setEnableHeroFx] = useState(false);
+  useEffect(() => {
+    const id = window.setTimeout(() => setEnableHeroFx(true), 400);
+    return () => window.clearTimeout(id);
+  }, []);
   return (
     <>
     <main className="flex flex-col min-h-[100dvh] space-y-10">
@@ -51,55 +58,61 @@ export default function Page() {
                 className="relative"
               >
                 {/* Animated Glow Effects */}
-                <motion.div
-                  className="absolute inset-0 -z-10"
-                  animate={{
-                    opacity: [0.3, 0.6, 0.3],
-                    scale: [1, 1.1, 1],
-                  }}
-                  transition={{
-                    duration: 3,
-                    repeat: Infinity,
-                    ease: "easeInOut"
-                  }}
-                >
-                  {/* Green glow (for the 3 leaves) */}
-                  <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-32 h-32 bg-[#7ed957] rounded-full blur-3xl opacity-60" />
-                  
-                  {/* White/Gray glow (for the letter) */}
-                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 bg-white rounded-full blur-3xl opacity-30" />
-                </motion.div>
+                {enableHeroFx && (
+                  <motion.div
+                    className="absolute inset-0 -z-10 will-change-transform"
+                    animate={{
+                      opacity: [0.25, 0.5, 0.25],
+                      scale: [1, 1.06, 1],
+                    }}
+                    transition={{
+                      duration: 3.2,
+                      repeat: Infinity,
+                      ease: "easeInOut"
+                    }}
+                    style={{ willChange: 'transform, opacity', backfaceVisibility: 'hidden', transform: 'translateZ(0)' }}
+                  >
+                    {/* Green glow (for the 3 leaves) */}
+                    <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-24 h-24 bg-[#7ed957] rounded-full blur-2xl opacity-60" />
+                    
+                    {/* White/Gray glow (for the letter) */}
+                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-36 h-36 bg-white rounded-full blur-2xl opacity-25" />
+                  </motion.div>
+                )}
 
                 {/* Rotating Beam Animation */}
-                <motion.div
-                  className="absolute inset-0 -z-10"
-                  animate={{
-                    rotate: [0, 360],
-                  }}
-                  transition={{
-                    duration: 8,
-                    repeat: Infinity,
-                    ease: "linear"
-                  }}
-                >
-                  {/* Beam 1 - Green */}
-                  <div 
-                    className="absolute top-1/2 left-1/2 w-64 h-1 -translate-x-1/2 -translate-y-1/2"
-                    style={{
-                      background: "linear-gradient(90deg, transparent 0%, #7ed957 50%, transparent 100%)",
-                      filter: "blur(8px)",
+                {enableHeroFx && (
+                  <motion.div
+                    className="absolute inset-0 -z-10 will-change-transform"
+                    animate={{
+                      rotate: [0, 360],
                     }}
-                  />
-                  
-                  {/* Beam 2 - White */}
-                  <div 
-                    className="absolute top-1/2 left-1/2 w-64 h-1 -translate-x-1/2 -translate-y-1/2 rotate-90"
-                    style={{
-                      background: "linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.6) 50%, transparent 100%)",
-                      filter: "blur(8px)",
+                    transition={{
+                      duration: 10,
+                      repeat: Infinity,
+                      ease: "linear"
                     }}
-                  />
-                </motion.div>
+                    style={{ willChange: 'transform', backfaceVisibility: 'hidden', transform: 'translateZ(0)' }}
+                  >
+                    {/* Beam 1 - Green */}
+                    <div 
+                      className="absolute top-1/2 left-1/2 w-64 h-1 -translate-x-1/2 -translate-y-1/2"
+                      style={{
+                        background: "linear-gradient(90deg, transparent 0%, #7ed957 50%, transparent 100%)",
+                        filter: "blur(6px)",
+                      }}
+                    />
+                    
+                    {/* Beam 2 - White */}
+                    <div 
+                      className="absolute top-1/2 left-1/2 w-64 h-1 -translate-x-1/2 -translate-y-1/2 rotate-90"
+                      style={{
+                        background: "linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.5) 50%, transparent 100%)",
+                        filter: "blur(6px)",
+                      }}
+                    />
+                  </motion.div>
+                )}
 
                 <Image 
                   src={DATA.avatarUrl} 
