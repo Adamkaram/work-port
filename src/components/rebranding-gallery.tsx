@@ -85,7 +85,7 @@ const PROJECTS: ProjectData[] = [
       after: "/gallery/diamond-media/compare/after.webp"
     },
     video: "/gallery/diamond-media/vid/1.mp4",
-    logo: "/gallery/diamond-media/logo/DIAMOND-logo.png",
+    logo: "/gallery/diamond-media/logo/DIAMOND-logo.webp",
     pdf: "/gallery/diamond-media/pdf-representaion/Re-Branding Diamond.pdf",
     socialLinks: {
       instagram: "https://www.instagram.com/diamondartjewellery"
@@ -121,7 +121,7 @@ const PROJECTS: ProjectData[] = [
       after: "/gallery/mmonents-media/compare/after.webp"
     },
     video: "/gallery/mmonents-media/vid-rep/video.mp4",
-    logo: "/gallery/mmonents-media/logo/Logo..png",
+    logo: "/gallery/mmonents-media/logo/Logo.webp",
     pdf: "/gallery/mmonents-media/pdf-representaion/Branding.pdf",
     socialLinks: {
       instagram: "https://www.instagram.com/mymoments"
